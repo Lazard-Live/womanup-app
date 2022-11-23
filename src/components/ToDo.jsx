@@ -1,4 +1,4 @@
-function ToDo({todo, removeTask}) {
+function ToDo({todo, removeTask, editTask}) {
 
     return (
         <div key={todo.id} className='item'>
@@ -11,6 +11,10 @@ function ToDo({todo, removeTask}) {
             <button className={"item-delete"} onClick={() => {
                 removeTask(todo.id)
             }}> Del
+            </button>
+
+            <button onClick={() => editTask(todo.id)}>
+                Edit
             </button>
         </div>
     )

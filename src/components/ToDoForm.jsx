@@ -1,6 +1,6 @@
-import {useState} from "react";
+import { useEffect, useState } from "react";
 
-function ToDoForm({addTask}) {
+function ToDoForm({addTask, editedTask, onEditFinish}) {
 
     // коллекции данных
     const [userInputTitle, setUserInputTitle] = useState(''),
@@ -8,14 +8,31 @@ function ToDoForm({addTask}) {
         [userInputFile, setUserInputFile] = useState(''),
         [userInputDate, setUserInputDate] = useState('');
 
+    const [isEdit, setIsEdit] = useState(false);
+
+    useEffect(() => {
+        if (editedTask) {
+            setUserInputTitle(editedTask.title);
+            setUserInputText(editedTask.text);
+            setUserInputFile(editedTask.file);
+            setUserInputDate(editedTask.date);
+
+            setIsEdit(true);
+        }
+    }, [editedTask]);
 
     // действие при собитии отправки формы
     const handleSubmit = (data) => {
         // отключение перезагрузки формы
         data.preventDefault();
 
-        // вызов добавления задачи и передача данных из полей формы
-        addTask(userInputTitle, userInputText, userInputFile, userInputDate)
+        if (isEdit) {
+            onEditFinish(editedTask.id, userInputTitle, userInputText, userInputFile, userInputDate);
+            setIsEdit(false);
+        } else {
+            // вызов добавления задачи и передача данных из полей формы
+            addTask(userInputTitle, userInputText, userInputFile, userInputDate)
+        }
 
         // очистка полей ввода
         setUserInputTitle ('')
@@ -56,7 +73,9 @@ function ToDoForm({addTask}) {
                         onChange={(event) => setUserInputDate(event.target.value)}
                     />
 
-                    <button>Добавить запись</button>
+                    <button>
+                        {isEdit ? 'Изменить' : 'Добавить'} запись
+                    </button>
                 </div>
             </div>
 

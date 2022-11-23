@@ -40,11 +40,32 @@ function App() {
         setTodos([...todos.filter((todo) => todo.id !== id)])
     }
 
+    const [editedTask, setEditedTask] = useState(null);
+
+    const startEditingTask = (id) => {
+        setEditedTask(todos.find((todo) => todo.id === id));
+    }
+
+    const finishEditingTask = (id, userInputTitle, userTitleText, userInputFile, userInputDate) => {
+        const foundTaskIndex = todos.findIndex((todo) => todo.id === id);
+        const newTodos = [...todos];
+        newTodos[foundTaskIndex] = {
+            ...newTodos[foundTaskIndex],
+            title: userInputTitle,
+            text: userTitleText,
+            file: userInputFile,
+            date: userInputDate,
+        };
+
+        setTodos(newTodos);
+        setEditedTask(null);
+    }
+
     return (
         <div className="App">
             <header>
                 {/*<h1> Дел в списке: {todos.length}</h1>*/}
-                <ToDoForm addTask={addTask}/>
+                <ToDoForm addTask={addTask} editedTask={editedTask} onEditFinish={finishEditingTask} />
             </header>
 
             <div className="items-list">
@@ -56,6 +77,7 @@ function App() {
                         todo={todo}
                         key={todo.id}
                         removeTask={removeTask}
+                        editTask={startEditingTask}
                     />
                 )
             })
