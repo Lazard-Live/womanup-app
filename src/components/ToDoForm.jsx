@@ -1,19 +1,28 @@
 import {useState} from "react";
 
 function ToDoForm({addTask}) {
+
+    // коллекции данных
     const [userInputTitle, setUserInputTitle] = useState(''),
         [userInputText, setUserInputText] = useState(''),
-        [userInputFile, setUserInputFile] = useState('');
+        [userInputFile, setUserInputFile] = useState(''),
+        [userInputDate, setUserInputDate] = useState('');
 
 
+    // действие при собитии отправки формы
     const handleSubmit = (data) => {
+        // отключение перезагрузки формы
         data.preventDefault();
-        addTask(userInputTitle, userInputText, userInputFile)
-        setUserInputTitle('')
+
+        // вызов добавления задачи и передача данных из полей формы
+        addTask(userInputTitle, userInputText, userInputFile, userInputDate)
+
+        // очистка полей ввода
+        setUserInputTitle ('')
         setUserInputText('')
         setUserInputFile('')
+        setUserInputDate('')
     }
-
 
     return (
         <form onSubmit={handleSubmit}>
@@ -33,12 +42,22 @@ function ToDoForm({addTask}) {
                     onChange={(event) => setUserInputText(event.target.value)}
                     placeholder="Введите описание"
                 />
-                <input
-                    value={userInputFile}
-                    type={"file"}
-                    onChange={(event) => setUserInputFile(event.target.value)}
-                />
-                <button>Добавить запись</button>
+
+                <div className='form_wrap'>
+                    <input
+                        value={userInputFile}
+                        type={"file"}
+                        onChange={(event) => setUserInputFile(event.target.value)}
+                    />
+
+                    <input
+                        value={userInputDate}
+                        type={"date"}
+                        onChange={(event) => setUserInputDate(event.target.value)}
+                    />
+
+                    <button>Добавить запись</button>
+                </div>
             </div>
 
         </form>

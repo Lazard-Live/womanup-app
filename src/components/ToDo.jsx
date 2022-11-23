@@ -2,18 +2,15 @@ function ToDo({todo, removeTask}) {
 
     return (
         <div key={todo.id} className='item'>
-            <div className="item-title">
-                {todo.title}
-            </div>
-            <div className={todo.complete ? "item-text strike" : "item-text"}>
-                {todo.text}
-            </div>
-            <div className="item-file">
-                {todo.file}
-            </div>
+
+            <div className="item_title" >{todo.title}</div>
+            <div className="item_text">{todo.text}</div>
+            <i className="item_file">{todo.file}</i>
+            <div className="item_date"> {todo.date} </div>
+
             <button className={"item-delete"} onClick={() => {
                 removeTask(todo.id)
-            }}>X
+            }}> Del
             </button>
         </div>
     )

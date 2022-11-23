@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 import './App.scss';
 import ToDo from "./components/ToDo.jsx";
@@ -6,16 +6,31 @@ import ToDoForm from "./components/ToDoForm.jsx";
 
 function App() {
 
-    const [todos, setTodos] = useState([]);
+    // список элементов с сохранением добавленных задач в локальном хранилище
+    const [todos, setTodos] = useState(() => {
 
-    const addTask = (userInputTitle, userTitleText, userInputFile) => {
+        const savedTodos = localStorage.getItem("todos");
+        if (savedTodos) {
+            return JSON.parse(savedTodos);
+        } else {
+            return []
+        }
+    });
+
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos]);
+
+    // Добавление элемента на страницу
+    const addTask = (userInputTitle, userTitleText, userInputFile, userInputDate) => {
         if (userInputTitle && userTitleText) {
             const newItem = {
-                id: Math.random().toString(36).substr(2, 9),
+                id: Math.random().toString(36).substring(2, 9),
                 title: userInputTitle,
                 text: userTitleText,
                 file: userInputFile,
-                complete: false
+                date: userInputDate,
+                edit: true
             }
             setTodos([...todos, newItem])
         }
@@ -28,21 +43,23 @@ function App() {
     return (
         <div className="App">
             <header>
-                <h1> Дел в списке: {todos.length}</h1>
+                {/*<h1> Дел в списке: {todos.length}</h1>*/}
+                <ToDoForm addTask={addTask}/>
             </header>
-            <ToDoForm addTask={addTask}/>
+
             <div className="items-list">
-                {todos.map((todo) => {
-                    return (
-                        <ToDo
-                            todo={todo}
-                            key={todo.id}
-                            removeTask={removeTask}
-                        />
-                    )
-                })
-                }
+                <h3>Список дел:</h3>
             </div>
+            {todos.map((todo) => {
+                return (
+                    <ToDo
+                        todo={todo}
+                        key={todo.id}
+                        removeTask={removeTask}
+                    />
+                )
+            })
+            }
         </div>
     );
 }
