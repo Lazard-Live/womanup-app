@@ -1,60 +1,85 @@
+$color-warning-date: orange;
+$color-bad-date: orangered;
+$color-form-bg: azure;
+
 #root {
-  margin: 8px;
-  display: flex;
-  flex-direction: column;
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
 }
 
 .form {
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  background-color: azure;
-  gap: 1rem;
-  border: 1px solid black;
-
-  &_title {
-    overflow: hidden;
-    max-width: 400px;
-  }
-
-  &_text {
-    word-wrap: break-word;
-    word-break: break-all;
-    height: 80px;
     padding: 8px;
-    resize: vertical;
-  }
-
-  &_wrap {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: $color-form-bg;
     gap: 1rem;
-  }
+    border: 1px solid black;
 
-  &_date {
-    margin: 0 4px;
-  }
+    &__title {
+        overflow: hidden;
+        max-width: 400px;
+    }
+
+    &__text {
+        word-wrap: break-word;
+        word-break: break-all;
+        height: 80px;
+        padding: 8px;
+        resize: vertical;
+    }
+
+    &__wrap {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    &__date {
+        margin: 0 4px;
+    }
 }
 
 .items-list {
-  margin-top: 12px;
-  padding: 0 8px;
-  border: 1px solid black;
+    margin-top: 12px;
+    padding: 0 8px;
+    border: 1px solid black;
 }
 
 .item {
-  display: flex;
-  padding: 8px;
-  border: 1px solid black;
-  border-top: none;
-  gap: 1rem;
+    display: flex;
+    padding: 8px;
+    border: 1px solid black;
+    border-top: none;
+    gap: 1rem;
 
-  &_complete {
-
-    .item_title,
-    .item_text {
-    text-decoration: line-through;
+    &_complete {
+        .item__title,
+        .item__text,
+        .item__date,
+        .item__file {
+            text-decoration: line-through;
+        }
     }
-  }
+
+    &_warning {
+        background: $color-warning-date;
+    }
+
+    &_bad {
+        background: $color-bad-date;
+    }
+
+    &__title {
+        font-weight: bold;
+    }
+
+    &__text {
+        font-style: italic;
+    }
+
+    &__file {
+        font-size: 8px;
+    }
 }
