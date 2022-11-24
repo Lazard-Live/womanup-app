@@ -1,3 +1,4 @@
+$color-complete-task: green;
 $color-warning-date: orange;
 $color-bad-date: orangered;
 $color-form-bg: azure;
@@ -55,12 +56,7 @@ $color-form-bg: azure;
     gap: 1rem;
 
     &_complete {
-        .item__title,
-        .item__text,
-        .item__date,
-        .item__file {
-            text-decoration: line-through;
-        }
+        background: $color-complete-task;
     }
 
     &_warning {

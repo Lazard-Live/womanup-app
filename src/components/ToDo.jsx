@@ -5,24 +5,37 @@ function ToDo({ todo, removeTask, editTask }) {
     const oneEffect = () => {
         const dateToday = dayjs().format('YYYY-MM-DD'),
             dateTodo = todo.date;
-
-        if (dateToday > dateTodo) {
-            setItemClassName('item item_bad');
-        } else {
-            if (dateToday === dateTodo) {
-                setItemClassName('item item_warning');
+        if (itemClassName !== 'item item_complete') {
+            if (dateToday > dateTodo) {
+                setItemClassName('item item_bad');
+            } else {
+                if (dateToday === dateTodo) {
+                    setItemClassName('item item_warning');
+                }
             }
         }
     };
+
+    const [itemClassName, setItemClassName] = useState('item');
 
     useEffect(() => {
         oneEffect();
     });
 
-    const [itemClassName, setItemClassName] = useState('item');
-
     const toggleClass = () => {
         if (itemClassName === 'item') {
+            setItemClassName('item item_complete');
+        } else {
+            setItemClassName('item');
+        }
+
+        if (itemClassName === 'item item_warning') {
+            setItemClassName('item item_complete');
+        } else {
+            setItemClassName('item');
+        }
+
+        if (itemClassName === 'item item_bad') {
             setItemClassName('item item_complete');
         } else {
             setItemClassName('item');
