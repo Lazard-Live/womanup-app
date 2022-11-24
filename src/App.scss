@@ -49,4 +49,12 @@
   border: 1px solid black;
   border-top: none;
   gap: 1rem;
+
+  &_complete {
+
+    .item_title,
+    .item_text {
+    text-decoration: line-through;
+    }
+  }
 }

@@ -22,12 +22,12 @@ function App() {
     }, [todos]);
 
     // Добавление элемента на страницу
-    const addTask = (userInputTitle, userTitleText, userInputFile, userInputDate) => {
-        if (userInputTitle && userTitleText) {
+    const addTask = (userInputTitle, userInputText, userInputFile, userInputDate) => {
+        if (userInputTitle && userInputText) {
             const newItem = {
                 id: Math.random().toString(36).substring(2, 9),
                 title: userInputTitle,
-                text: userTitleText,
+                text: userInputText,
                 file: userInputFile,
                 date: userInputDate,
                 edit: true
@@ -40,11 +40,36 @@ function App() {
         setTodos([...todos.filter((todo) => todo.id !== id)])
     }
 
+    const [editedTask, setEditedTask] = useState(null)
+
+    const startEditedTask = (id) => {
+        setEditedTask(todos.find((todo) => todo.id === id))
+    }
+
+    const endEditTask = (id, userInputTitle, userInputText, userInputFile, userInputDate) => {
+        const findTaskIndex = todos.findIndex((todo) => todo.id === id);
+        const newTodos = [...todos];
+
+        newTodos[findTaskIndex] = {
+            ...newTodos[findTaskIndex],
+            title: userInputTitle,
+            text: userInputText,
+            file: userInputFile,
+            date: userInputDate,
+            complete: false
+        };
+
+        setTodos(newTodos);
+        setEditedTask(null)
+    }
+
     return (
         <div className="App">
             <header>
-                {/*<h1> Дел в списке: {todos.length}</h1>*/}
-                <ToDoForm addTask={addTask}/>
+                <h1> Дел в списке: {todos.length}</h1>
+                <ToDoForm addTask={addTask}
+                          editedTask={editedTask}
+                          endEditTask={endEditTask}/>
             </header>
 
             <div className="items-list">
@@ -56,6 +81,7 @@ function App() {
                         todo={todo}
                         key={todo.id}
                         removeTask={removeTask}
+                        editTask={startEditedTask}
                     />
                 )
             })
