@@ -22,6 +22,10 @@ function ToDo({ todo, removeTask, editTask }) {
     });
 
     const toggleClass = () => {
+        if (itemClassName === 'item') {
+            setItemClassName('item item_complete');
+        }
+
         if (itemClassName !== 'item') {
             setItemClassName('item item_complete');
         }
